@@ -59,7 +59,13 @@ Make sure to `View()` the resulting data frame (remember: run `View()` in the Co
 ```{r}
 # Your code here: 
 
+sw_split_name <- starwars %>% 
+  separate(col = name, 
+           into = c("name_1","name_2"), 
+           sep = "-"
+  )
 
+# In row 49, the third part of the name after the second dash was omitted
 ```
 
 #### 1B. Follow me
