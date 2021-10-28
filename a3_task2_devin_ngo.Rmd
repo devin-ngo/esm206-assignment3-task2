@@ -59,10 +59,10 @@ Make sure to `View()` the resulting data frame (remember: run `View()` in the Co
 ```{r}
 # Your code here: 
 
-sw_split_name <- starwars %>% 
-  separate(col = name, 
-           into = c("name_1","name_2"), 
-           sep = "-"
+sw_split_name <- starwars %>% # Start with starwars
+  separate(col = name, # Separate the name column
+           into = c("name_1","name_2"), # Into two columns 'name_1' and 'name_2'
+           sep = "-" # Separated at the first '-'
   )
 
 # In row 49, the third part of the name after the second dash was omitted
@@ -203,7 +203,7 @@ In the code chunk below, create a vector (using `c()`, as above) stored as `some
 ```{r}
 # Your code here: 
 
-some_dates <- c(11061972, 0214200, 01301843)
+some_dates <- c(11061972, 02142007, 01301843)
 some_dates_converted <- mdy(some_dates)
 some_dates_converted
 
@@ -256,7 +256,8 @@ gasol_hookshots <- lakers %>%
   mutate(date_new = ymd(date)) %>% 
   mutate(month_new = month(date_new))
 
-count(month())
+gasol_hookshots %>% 
+  count(month_new)
 ```
 
 ### 4. `dplyr::case_when()`
