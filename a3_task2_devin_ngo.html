@@ -9,7 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Devin Ngo" />
 
+<meta name="date" content="2021-10-25" />
 
 <title>Follow me: more data wrangling tools</title>
 
@@ -165,6 +167,8 @@ pre code {
 
 <h1 class="title toc-ignore">Follow me: more data wrangling tools</h1>
 <h3 class="subtitle">separate, unite, dates, and case_when()</h3>
+<h4 class="author">Devin Ngo</h4>
+<h4 class="date">10/25/21</h4>
 
 </div>
 
@@ -244,12 +248,12 @@ sw_sep_names &lt;- starwars %&gt;% # Start from starwars data
 <p>Make sure to <code>View()</code> the resulting data frame (remember: run <code>View()</code> in the Console, or click on the object name in the Environment) to ensure it worked as expected.</p>
 <pre class="r"><code># Your code here:
 
-sw_skin_sep &lt;- starwars %&gt;% 
-  separate(col = skin_color,
-           into = c(&quot;skin_1&quot;, &quot;skin_2&quot;),
-           sep = &quot;,&quot;,
-           extra = &quot;merge&quot;,
-           remove = FALSE)</code></pre>
+sw_skin_sep &lt;- starwars %&gt;% # Start from starwars data 
+  separate(col = skin_color, # Separate the &#39;skin_color&#39; column
+           into = c(&quot;skin_1&quot;, &quot;skin_2&quot;), # Into two columns
+           sep = &quot;,&quot;, # Creating separation at the first &#39;,&#39;
+           extra = &quot;merge&quot;, # If additional &#39;,&#39;, merge all into second column
+           remove = FALSE) # Keep original &#39;skin_color&#39; column</code></pre>
 </div>
 </div>
 <div id="tidyrunite" class="section level3">
@@ -276,11 +280,11 @@ mpg_make_model &lt;- mpg %&gt;% # Start with mpg
 <p>In the code chunk below, starting from the <code>mpg</code> data create a new data frame called <code>mpg_model_class</code> with a new column called <code>model_class</code> that combines the <code>model</code> and <code>class</code> column information, separated by a dash “-”. Also add a line (similarly for <code>separate()</code> example above) that retains the original columns.</p>
 <pre class="r"><code># Your code here: 
 
-mpg_model_class &lt;- mpg %&gt;% 
-  unite(col = model_class,
-        c(model, class),
-        sep = &quot;-&quot;,
-        remove = FALSE)</code></pre>
+mpg_model_class &lt;- mpg %&gt;% # Start with mpg
+  unite(col = model_class, # Create new column &#39;model_class&#39;
+        c(model, class), # That combines model and class
+        sep = &quot;-&quot;, # Puts a &#39;-&#39; between the pieces
+        remove = FALSE) # Retains original columns</code></pre>
 </div>
 </div>
 <div id="parsing-dates-with-lubridate" class="section level3">
@@ -329,11 +333,11 @@ my_dates_converted # Return my_dates_converted</code></pre>
 <p>In the code chunk below, create a vector (using <code>c()</code>, as above) stored as <code>some_dates</code> that contains three values that represent dates as numbers, in mdy format: 11061972, 02142007,01301843. Then in the next line, use <code>lubridate::mdy()</code> to return them in date format, storing as a vector <code>some_dates_converted</code>. Write a third line to check the class of that vector.</p>
 <pre class="r"><code># Your code here: 
 
-some_dates &lt;- c(11061972, 02142007, 01301843)
-some_dates_converted &lt;- mdy(some_dates)
-some_dates_converted</code></pre>
+some_dates &lt;- c(11061972, 02142007, 01301843) # Creates a vector of dates w/o spaces
+some_dates_converted &lt;- mdy(some_dates) # Converts to Date, stores as some_dates_converted
+some_dates_converted # Return some_dates_converted</code></pre>
 <pre><code>## [1] &quot;1972-11-06&quot; &quot;2007-02-14&quot; &quot;1843-01-30&quot;</code></pre>
-<pre class="r"><code>class(some_dates_converted)</code></pre>
+<pre class="r"><code>class(some_dates_converted) # Check the class</code></pre>
 <pre><code>## [1] &quot;Date&quot;</code></pre>
 </div>
 <div id="c.-follow-me" class="section level4">
@@ -389,12 +393,12 @@ points_by_month</code></pre>
 <pre class="r"><code># Your code here: 
 
 gasol_hookshots &lt;- lakers %&gt;% 
-  filter(player %in% c(&quot;Pau Gasol&quot;), type %in% c(&quot;hook&quot;)) %&gt;% 
-  mutate(date_new = ymd(date)) %&gt;% 
-  mutate(month_new = month(date_new))
+  filter(player %in% c(&quot;Pau Gasol&quot;), type %in% c(&quot;hook&quot;)) %&gt;% # Filter for Pau Gasol and &#39;hook&#39; shot
+  mutate(date_new = ymd(date)) %&gt;% # Updating column to &#39;Date&#39; class
+  mutate(month_new = month(date_new)) # Adding month column
 
 gasol_hookshots %&gt;% 
-  count(month_new)</code></pre>
+  count(month_new) # Finding number of Gasol&#39;s hook shots by month</code></pre>
 <pre><code>##   month_new  n
 ## 1         1 19
 ## 2         2 16
@@ -437,10 +441,10 @@ storm_season &lt;- storms %&gt;% # Start from storms data
 <p>Note: If you add another condition within <code>case_when()</code> that is <code>TRUE ~ &quot;some thing&quot;</code>, then any entry that hasn’t been specified by previous conditions will get that “catch all” statement.</p>
 <pre class="r"><code># Your code here: 
 
-storms_danger &lt;- storms %&gt;% 
-  mutate(danger = case_when( 
-    status == &quot;hurricane&quot; ~ &quot;high&quot;,
-    status != &quot;hurricane&quot; ~ &quot;moderate&quot;
+storms_danger &lt;- storms %&gt;% # Start from storms data 
+  mutate(danger = case_when( # Add a new column danger which contains
+    status == &quot;hurricane&quot; ~ &quot;high&quot;, # &#39;high&#39; if status is &#39;hurricane&#39;
+    status != &quot;hurricane&quot; ~ &quot;moderate&quot; # &#39;moderate&#39; if status is not &#39;hurricane&#39;
   ))</code></pre>
 </div>
 </div>
